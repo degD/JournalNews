@@ -117,6 +117,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout newJournalDialogLayout = new javax.swing.GroupLayout(newJournalDialog.getContentPane());
         newJournalDialog.getContentPane().setLayout(newJournalDialogLayout);
@@ -356,6 +361,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         // User clicked 'Ready' at newJournalDialog.
 	
 	// Get user input.
+	// TODO: Prevent wrong character errors.
 	String name = newJournalName.getText();
 	String issn = newJournalIssn.getText();
 	int frequency = Integer.parseInt(newJournalFreq.getText());
@@ -368,6 +374,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	// Reset dialog fields.
 	resetNewJournalDialog();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // User clicked 'Cancel' at newJournalDialog.
+	resetNewJournalDialog();
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
