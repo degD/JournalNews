@@ -4,6 +4,7 @@
  */
 package dege.journalnews;
 
+import java.util.Vector;
 import javax.swing.DefaultListModel;
 
 /**
@@ -13,6 +14,8 @@ import javax.swing.DefaultListModel;
 public class JournalNewsGUI extends javax.swing.JFrame {
     
     private Distributor distributor = new Distributor();
+    private final Vector<Subscriber> subscriberListElements = new Vector<>();
+    private final Vector<Journal> JournalListElements = new Vector<>();
     private final DefaultListModel subscribersListModel = new DefaultListModel();
     private final DefaultListModel journalsListModel = new DefaultListModel();
     
@@ -20,15 +23,19 @@ public class JournalNewsGUI extends javax.swing.JFrame {
      * Refresh GUI subscribers and journals lists.
      */
     public void refreshGuiLists() {
-	// Clear contents
+	// Clear contents.
 	subscribersListModel.clear();
 	journalsListModel.clear();
+	subscriberListElements.clear();
+	JournalListElements.clear();
 
 	// Populate lists.
 	for (Subscriber aSubscriber : distributor.getSubscribers()) {
+	    subscriberListElements.add(aSubscriber);
 	    subscribersListModel.addElement(aSubscriber.getName());
 	}
 	for (Journal aJournal : distributor.getJournals().values()) {
+	    JournalListElements.add(aJournal);
 	    journalsListModel.addElement(aJournal.getName());
 	}	
     }
@@ -64,9 +71,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         journalsList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
         refreshButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        detailsTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JournalNews");
@@ -80,6 +87,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        subscribersList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                subscribersListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(subscribersList);
 
         jTabbedPane1.addTab("Subscribers", jScrollPane1);
@@ -89,14 +101,16 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        journalsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                journalsListValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(journalsList);
 
         jTabbedPane1.addTab("Journals", jScrollPane2);
 
         jLabel2.setText("Details");
-
-        jEditorPane1.setEditable(false);
-        jScrollPane3.setViewportView(jEditorPane1);
 
         refreshButton.setText("Refresh");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +118,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 refreshButtonActionPerformed(evt);
             }
         });
+
+        detailsTextArea.setEditable(false);
+        detailsTextArea.setColumns(15);
+        detailsTextArea.setLineWrap(true);
+        detailsTextArea.setRows(5);
+        jScrollPane3.setViewportView(detailsTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,7 +137,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(refreshButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -125,11 +145,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refreshButton)
@@ -143,6 +163,58 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         // Refresh lists when button is pressed.
 	refreshGuiLists();
     }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void subscribersListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_subscribersListValueChanged
+        // When subscriber list item selected, show details.
+	if (subscribersList.getValueIsAdjusting() == false) {
+	    
+	    if (subscribersList.getSelectedIndex() != -1) {
+		// Selected something.
+		
+		// Clear written text.
+		detailsTextArea.setText(null);
+		
+		// Getting Subscriber object.
+		int i = subscribersList.getSelectedIndex();
+		Subscriber aSubscriber = subscriberListElements.get(i);
+		
+		// Writing Subscriber details.
+		if (aSubscriber instanceof Individual) {
+		    detailsTextArea.append("Type: Individual\n\n");
+		} else {
+		    detailsTextArea.append("Type: Corporation\n\n");
+		}
+		detailsTextArea.append(aSubscriber.getName() + "\n");
+		detailsTextArea.append(aSubscriber.getAddress() + "\n");
+		detailsTextArea.append("\n");
+		detailsTextArea.append(aSubscriber.getBillingInformation());
+	    }
+	}
+    }//GEN-LAST:event_subscribersListValueChanged
+
+    private void journalsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_journalsListValueChanged
+        // When journal list item selected, show details.
+	if (journalsList.getValueIsAdjusting() == false) {
+	    
+	    if (journalsList.getSelectedIndex() != -1) {
+		// Selected something.
+		
+		// Clear written text.
+		detailsTextArea.setText(null);
+		
+		// Getting Subscriber object.
+		int i = journalsList.getSelectedIndex();
+		Journal aJournal = JournalListElements.get(i);
+		
+		// Writing Subscriber details.
+		detailsTextArea.append("Type: Journal\n\n");
+		detailsTextArea.append(aJournal.getName() + "\n");
+		detailsTextArea.append(aJournal.getIssn() + "\n");
+		detailsTextArea.append(aJournal.getFrequency()+ "\n");
+		detailsTextArea.append(Double.toString(aJournal.getIssuePrice()));
+	    }
+	}
+    }//GEN-LAST:event_journalsListValueChanged
 
     /**
      * @param args the command line arguments
@@ -180,7 +252,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JTextArea detailsTextArea;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
