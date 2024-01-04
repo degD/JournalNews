@@ -4,17 +4,49 @@
  */
 package dege.journalnews;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author deneg
  */
 public class JournalNewsGUI extends javax.swing.JFrame {
+    
+    private Distributor distributor = new Distributor();
+    private final DefaultListModel subscribersListModel = new DefaultListModel();
+    private final DefaultListModel journalsListModel = new DefaultListModel();
+    
+    /**
+     * Refresh GUI subscribers and journals lists.
+     */
+    public void refreshGuiLists() {
+	// Clear contents
+	subscribersListModel.clear();
+	journalsListModel.clear();
+
+	// Populate lists.
+	for (Subscriber aSubscriber : distributor.getSubscribers()) {
+	    subscribersListModel.addElement(aSubscriber.getName());
+	}
+	for (Journal aJournal : distributor.getJournals().values()) {
+	    journalsListModel.addElement(aJournal.getName());
+	}	
+    }
 
     /**
      * Creates new form JournalNewsGUI
      */
     public JournalNewsGUI() {
         initComponents();
+	
+	// Test values for distributor.
+	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
+	distributor.addJournal(new Journal("Great Planet", "4354", 2, 50));
+	distributor.addSubscriber(new Individual("Ahmet", "address1"));
+	distributor.addSubscriber(new Corporation("Lone Worker", "address2"));
+	
+	subscribersList.setModel(subscribersListModel);
+	journalsList.setModel(journalsListModel);
     }
 
     /**
@@ -28,12 +60,13 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        subscribersList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        journalsList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
+        refreshButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JournalNews");
@@ -42,21 +75,21 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jTabbedPane1.setToolTipText("");
         jTabbedPane1.setName(""); // NOI18N
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        subscribersList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(subscribersList);
 
         jTabbedPane1.addTab("Subscribers", jScrollPane1);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        journalsList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(journalsList);
 
         jTabbedPane1.addTab("Journals", jScrollPane2);
 
@@ -65,17 +98,27 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jEditorPane1.setEditable(false);
         jScrollPane3.setViewportView(jEditorPane1);
 
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(refreshButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -88,11 +131,18 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(refreshButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        // Refresh lists when button is pressed.
+	refreshGuiLists();
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,11 +182,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList<String> journalsList;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JList<String> subscribersList;
     // End of variables declaration//GEN-END:variables
 }
