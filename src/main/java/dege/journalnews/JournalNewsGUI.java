@@ -45,6 +45,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
      */
     public JournalNewsGUI() {
         initComponents();
+	initDialogs();
 	
 	// Test values for distributor.
 	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
@@ -65,6 +66,18 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu3 = new javax.swing.JMenu();
+        newJournalDialog = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
+        newJournalName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        newJournalIssn = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        newJournalFreq = new javax.swing.JTextField();
+        newJournalPrice = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         subscribersList = new javax.swing.JList<>();
@@ -74,6 +87,96 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         refreshButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         detailsTextArea = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        newJournalMenuItem = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        newIndividualMenuItem = new javax.swing.JMenuItem();
+        newCorpMenuItem = new javax.swing.JMenuItem();
+
+        jMenu3.setText("jMenu3");
+
+        newJournalDialog.setTitle("New Journal");
+        newJournalDialog.setAlwaysOnTop(true);
+        newJournalDialog.setSize(new java.awt.Dimension(0, 0));
+
+        jLabel1.setText("Name");
+
+        jLabel3.setText("ISSN");
+
+        jLabel4.setText("Frequency");
+
+        jLabel5.setText("Issue Price");
+
+        jButton1.setText("Ready");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancel");
+
+        javax.swing.GroupLayout newJournalDialogLayout = new javax.swing.GroupLayout(newJournalDialog.getContentPane());
+        newJournalDialog.getContentPane().setLayout(newJournalDialogLayout);
+        newJournalDialogLayout.setHorizontalGroup(
+            newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newJournalDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newJournalDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newJournalFreq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newJournalDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newJournalName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newJournalDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newJournalIssn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newJournalDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newJournalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newJournalDialogLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        newJournalDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newJournalFreq, newJournalIssn, newJournalName, newJournalPrice});
+
+        newJournalDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel3, jLabel4, jLabel5});
+
+        newJournalDialogLayout.setVerticalGroup(
+            newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newJournalDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(newJournalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(newJournalIssn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(newJournalFreq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(newJournalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newJournalDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JournalNews");
@@ -124,6 +227,33 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         detailsTextArea.setLineWrap(true);
         detailsTextArea.setRows(5);
         jScrollPane3.setViewportView(detailsTextArea);
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Add");
+
+        newJournalMenuItem.setText("New Journal...");
+        newJournalMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newJournalMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(newJournalMenuItem);
+
+        jMenu4.setText("New Subscriber");
+
+        newIndividualMenuItem.setText("New Individual...");
+        jMenu4.add(newIndividualMenuItem);
+
+        newCorpMenuItem.setText("New Corporation...");
+        jMenu4.add(newCorpMenuItem);
+
+        jMenu2.add(jMenu4);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,28 +324,66 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     private void journalsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_journalsListValueChanged
         // When journal list item selected, show details.
-	if (journalsList.getValueIsAdjusting() == false) {
-	    
-	    if (journalsList.getSelectedIndex() != -1) {
-		// Selected something.
-		
-		// Clear written text.
-		detailsTextArea.setText(null);
-		
-		// Getting Subscriber object.
-		int i = journalsList.getSelectedIndex();
-		Journal aJournal = JournalListElements.get(i);
-		
-		// Writing Subscriber details.
-		detailsTextArea.append("Type: Journal\n\n");
-		detailsTextArea.append(aJournal.getName() + "\n");
-		detailsTextArea.append(aJournal.getIssn() + "\n");
-		detailsTextArea.append(aJournal.getFrequency()+ "\n");
-		detailsTextArea.append(Double.toString(aJournal.getIssuePrice()));
-	    }
-	}
+        if (journalsList.getValueIsAdjusting() == false) {
+
+            if (journalsList.getSelectedIndex() != -1) {
+                // Selected something.
+
+                // Clear written text.
+                detailsTextArea.setText(null);
+
+                // Getting Subscriber object.
+                int i = journalsList.getSelectedIndex();
+                Journal aJournal = JournalListElements.get(i);
+
+                // Writing Subscriber details.
+                detailsTextArea.append("Type: Journal\n\n");
+                detailsTextArea.append(aJournal.getName() + "\n");
+                detailsTextArea.append(aJournal.getIssn() + "\n");
+                detailsTextArea.append(aJournal.getFrequency()+ "\n");
+                detailsTextArea.append(Double.toString(aJournal.getIssuePrice()));
+            }
+        }
     }//GEN-LAST:event_journalsListValueChanged
 
+    private void newJournalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newJournalMenuItemActionPerformed
+        // User clicked on 'New Journal...' menu item.
+	newJournalDialog.setVisible(true);
+	
+    }//GEN-LAST:event_newJournalMenuItemActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // User clicked 'Ready' at newJournalDialog.
+	
+	// Get user input.
+	String name = newJournalName.getText();
+	String issn = newJournalIssn.getText();
+	int frequency = Integer.parseInt(newJournalFreq.getText());
+	double price = Double.parseDouble(newJournalPrice.getText());
+	
+	// New Journal instance.
+	Journal newJournal = new Journal(name, issn, frequency, price);
+	distributor.addJournal(newJournal);
+	
+	// Reset dialog fields.
+	resetNewJournalDialog();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void resetNewJournalDialog() {
+	// Reset newJournalDialog instance.
+	newJournalDialog.pack();
+	newJournalName.setText(null);
+	newJournalIssn.setText(null);
+	newJournalFreq.setText(null);
+	newJournalPrice.setText(null);
+	newJournalDialog.setVisible(false);
+    }
+    
+    private void initDialogs() {
+	// Init dialogs.
+	newJournalDialog.pack();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -253,12 +421,31 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea detailsTextArea;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> journalsList;
+    private javax.swing.JMenuItem newCorpMenuItem;
+    private javax.swing.JMenuItem newIndividualMenuItem;
+    private javax.swing.JDialog newJournalDialog;
+    private javax.swing.JTextField newJournalFreq;
+    private javax.swing.JTextField newJournalIssn;
+    private javax.swing.JMenuItem newJournalMenuItem;
+    private javax.swing.JTextField newJournalName;
+    private javax.swing.JTextField newJournalPrice;
     private javax.swing.JButton refreshButton;
     private javax.swing.JList<String> subscribersList;
     // End of variables declaration//GEN-END:variables
