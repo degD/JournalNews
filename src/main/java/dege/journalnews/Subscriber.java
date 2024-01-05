@@ -1,6 +1,6 @@
 package dege.journalnews;
 
-public abstract class Subscriber {
+public abstract class Subscriber implements java.io.Serializable{
 	
 	protected String name;
 	protected String address;

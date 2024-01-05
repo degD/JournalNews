@@ -2,7 +2,7 @@ package dege.journalnews;
 
 import java.util.Vector;
 
-public class Journal {
+public class Journal implements java.io.Serializable{
 	
 	private final String name, issn;
 	private final int frequency;

@@ -12,7 +12,8 @@ import javax.swing.DefaultListModel;
  * @author deneg
  */
 public class JournalNewsGUI extends javax.swing.JFrame {
-    
+   
+    private final String defaultSaveFileName = "distributor-state.save";
     private Distributor distributor = new Distributor();
     private final Vector<Subscriber> subscriberListElements = new Vector<>();
     private final Vector<Journal> JournalListElements = new Vector<>();
@@ -122,8 +123,10 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         detailsTextArea = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        fileMenu = new javax.swing.JMenu();
+        saveMenuItem = new javax.swing.JMenuItem();
+        loadMenuItem = new javax.swing.JMenuItem();
+        addItemMenu = new javax.swing.JMenu();
         newJournalMenuItem = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         newIndividualMenuItem = new javax.swing.JMenuItem();
@@ -495,10 +498,27 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         detailsTextArea.setRows(5);
         jScrollPane3.setViewportView(detailsTextArea);
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        fileMenu.setText("File");
 
-        jMenu2.setText("Add");
+        saveMenuItem.setText("Save");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
+        loadMenuItem.setText("Load");
+        loadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(loadMenuItem);
+
+        jMenuBar1.add(fileMenu);
+
+        addItemMenu.setText("Add");
 
         newJournalMenuItem.setText("New Journal...");
         newJournalMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -506,7 +526,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 newJournalMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(newJournalMenuItem);
+        addItemMenu.add(newJournalMenuItem);
 
         jMenu4.setText("New Subscriber");
 
@@ -526,9 +546,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         });
         jMenu4.add(newCorpMenuItem);
 
-        jMenu2.add(jMenu4);
+        addItemMenu.add(jMenu4);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(addItemMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -724,6 +744,16 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	resetNewCorporationDialog();
 	newCorporationDialog.setVisible(true);
     }//GEN-LAST:event_newCorpMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // User selected 'Save'
+	distributor.saveState(defaultSaveFileName);
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
+        // User selected 'Load'
+	distributor.readState(defaultSaveFileName);
+    }//GEN-LAST:event_loadMenuItemActionPerformed
     
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
@@ -801,7 +831,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu addItemMenu;
     private javax.swing.JTextArea detailsTextArea;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -827,8 +859,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -837,6 +867,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> journalsList;
+    private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JTextField newCorpAccountNr;
     private javax.swing.JTextField newCorpAddr;
     private javax.swing.JTextField newCorpBankCode;
@@ -862,6 +893,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JTextField newJournalName;
     private javax.swing.JTextField newJournalPrice;
     private javax.swing.JButton refreshButton;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JList<String> subscribersList;
     // End of variables declaration//GEN-END:variables
 }
