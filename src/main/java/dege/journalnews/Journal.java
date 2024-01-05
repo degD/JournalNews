@@ -1,52 +1,72 @@
 package dege.journalnews;
 
 import java.util.Vector;
+import java.util.stream.Collectors;
 
-public class Journal implements java.io.Serializable{
-	
-	private final String name, issn;
-	private final int frequency;
-	private final double issuePrice;
-	private Vector<Subscription> subscriptions; 
-	
-	public Journal(String name, String issn, int frequency, double issuePrice) {
-		this.name = name;
-		this.issn = issn;
-		this.frequency = frequency;
-		this.issuePrice = issuePrice;
-	}
-	
-	public void addSubscription(Subscription aSubscriber) {
-		subscriptions.add(aSubscriber);
-	}
+public class Journal implements java.io.Serializable {
 
-	public String getName() {
-		return name;
-	}
+    private final String name, issn;
+    private final int frequency;
+    private final double issuePrice;
+    private Vector<Subscription> subscriptions;
 
-	public String getIssn() {
-		return issn;
-	}
+    public Journal(String name, String issn, int frequency, double issuePrice) {
+	this.name = name;
+	this.issn = issn;
+	this.frequency = frequency;
+	this.issuePrice = issuePrice;
+    }
 
-	public int getFrequency() {
-		return frequency;
-	}
+    public void addSubscription(Subscription aSubscriber) {
+	subscriptions.add(aSubscriber);
+    }
 
-	public double getIssuePrice() {
-		return issuePrice;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public Vector<Subscription> getSubscriptions() {
-		return subscriptions;
-	}
+    public String getIssn() {
+	return issn;
+    }
 
-	@Override
-	public String toString() {
-		return "Journal [name=" + name + ", issn=" + issn + ", frequency=" + frequency + ", issuePrice=" + issuePrice
-				+ "]";
+    public int getFrequency() {
+	return frequency;
+    }
+
+    public double getIssuePrice() {
+	return issuePrice;
+    }
+
+    public Vector<Subscription> getSubscriptions() {
+	return subscriptions;
+    }
+
+    public void setSubscriptions(Vector<Subscription> subscriptions) {
+	this.subscriptions = subscriptions;
+    }
+    
+    /**
+     * Return the first subscription with subscriber aSubscriber.
+     * Return -1 if does not exist.
+     * @param aSubscriber
+     * @return 
+     */
+    public int findSubscription(Subscriber aSubscriber) {
+	for (int i = 0; i < subscriptions.size(); i++) {
+	    if (subscriptions.get(i).getSubscriber() == aSubscriber) {
+		return i;
+	    }
 	}
-	
-	public String fancyToString() {
-		return "Journal" + "\nName: " + name + "\nISSN: " + issn + "\nFrequency: " + frequency + "\nPrice: " + issuePrice;
-	}
+	return -1;
+    }
+
+    @Override
+    public String toString() {
+	return "Journal [name=" + name + ", issn=" + issn + ", frequency=" + frequency + ", issuePrice=" + issuePrice
+		+ "]";
+    }
+
+    public String fancyToString() {
+	return "Journal" + "\nName: " + name + "\nISSN: " + issn + "\nFrequency: " + frequency + "\nPrice: " + issuePrice;
+    }
 }
