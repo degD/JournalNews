@@ -625,6 +625,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     private void newJournalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newJournalMenuItemActionPerformed
         // User clicked on 'New Journal...' menu item.
+	// Reset dialog fields.
+	resetNewJournalDialog();
 	newJournalDialog.setVisible(true);
 	
     }//GEN-LAST:event_newJournalMenuItemActionPerformed
@@ -643,8 +645,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	Journal newJournal = new Journal(name, issn, frequency, price);
 	distributor.addJournal(newJournal);
 	
-	// Reset dialog fields.
-	resetNewJournalDialog();
+	// Hide dialog.
+	newJournalDialog.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -654,6 +656,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     private void newIndividualMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newIndividualMenuItemActionPerformed
         // User clicked on 'New Individual...'.
+	// Reset dialog fields.
+	resetNewIndividualDialog();
 	newIndividualDialog.setVisible(true);
     }//GEN-LAST:event_newIndividualMenuItemActionPerformed
 
@@ -675,8 +679,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newIndividual.setCVV(cvv);
 	distributor.addSubscriber(newIndividual);
 	
-	// Reset dialog fields.
-	resetNewIndividualDialog();
+	// Hide dialog.
+	newIndividualDialog.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -691,7 +695,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // User clicked 'Ready' at newCorporationDialog.
-	
+
 	// Get user input.
 	String name = newCorpName.getText();
 	String addr = newCorpAddr.getText();
@@ -710,12 +714,14 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newCorporation.setAccountNumber(account);
 	distributor.addSubscriber(newCorporation);
 	
-	// Reset dialog fields.
-	resetNewCorporationDialog();
+	// Hide dialog.
+	newCorporationDialog.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void newCorpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCorpMenuItemActionPerformed
         // User clicked 'New Corporation...'
+	// Reset dialog fields.
+	resetNewCorporationDialog();
 	newCorporationDialog.setVisible(true);
     }//GEN-LAST:event_newCorpMenuItemActionPerformed
     
@@ -726,7 +732,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newJournalIssn.setText(null);
 	newJournalFreq.setText(null);
 	newJournalPrice.setText(null);
-	newJournalDialog.setVisible(false);
     }
     
     private void resetNewIndividualDialog() {
@@ -738,7 +743,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newIndividualExpireMonth.setText(null);
 	newIndividualExpireYear.setText(null);
 	newIndividualCVV.setText(null);
-	newIndividualDialog.setVisible(false);
     }
     
     private void resetNewCorporationDialog() {
@@ -752,7 +756,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newCorpIssueMonth.setText(null);
 	newCorpIssueYear.setText(null);
 	newCorpAccountNr.setText(null);
-	newCorporationDialog.setVisible(false);
     }
     
     private void initDialogs() {
