@@ -775,6 +775,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 		detailsTextArea.append(aSubscriber.getBillingInformation());
 	    }
 	}
+	
+	else {
+	    // clear journal list selection.
+	    journalsList.clearSelection();    
+	}
+
     }//GEN-LAST:event_subscribersListValueChanged
 
     private void journalsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_journalsListValueChanged
@@ -799,6 +805,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 detailsTextArea.append(Double.toString(aJournal.getIssuePrice()));
             }
         }
+	
+	else {
+	    // Clear subscriber list selection.
+	    subscribersList.clearSelection();
+	}
     }//GEN-LAST:event_journalsListValueChanged
 
     private void newJournalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newJournalMenuItemActionPerformed
