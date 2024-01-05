@@ -110,7 +110,7 @@ public class Distributor implements java.io.Serializable {
 	    subscriptions.addAll(searchJournal(issn).getSubscriptions());
 	}
 	return subscriptions;
-    }
+    } 
 
     public Vector<Subscription> listIncompletePayments() {
 	Vector<Subscription> incompleteSubscriptions = new Vector<>();

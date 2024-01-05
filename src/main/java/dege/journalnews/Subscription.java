@@ -1,6 +1,6 @@
 package dege.journalnews;
 
-public class Subscription {
+public class Subscription implements java.io.Serializable{
 
     private final DateInfo dates;
     private PaymentInfo payment;
@@ -16,6 +16,14 @@ public class Subscription {
 
 	double discount = calculateDiscountRatio();
 	this.payment = new PaymentInfo(discount);
+    }
+
+    public DateInfo getDates() {
+	return dates;
+    }
+
+    public Journal getJournal() {
+	return journal;
     }
 
     public Subscriber getSubscriber() {

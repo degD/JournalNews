@@ -15,24 +15,24 @@ import javax.swing.DefaultListModel;
  * @author deneg
  */
 public class JournalNewsGUI extends javax.swing.JFrame {
-   
+
     private final String defaultSaveFileName = "distributor-state.save";
     private Distributor distributor = new Distributor();
     private final Vector<Subscriber> subscriberListElements = new Vector<>();
     private final Vector<Journal> JournalListElements = new Vector<>();
     private final DefaultListModel subscribersListModel = new DefaultListModel();
     private final DefaultListModel journalsListModel = new DefaultListModel();
-    
-    
+
     /**
      * Disables menu LOAD option if the save file does not exist.
      */
     private void checkSaveFile() {
 	File saveFile = new File(defaultSaveFileName);
-	if (!saveFile.isFile())
+	if (!saveFile.isFile()) {
 	    loadMenuItem.setEnabled(false);
+	}
     }
-    
+
     /**
      * Refresh GUI subscribers and journals lists.
      */
@@ -51,26 +51,26 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	for (Journal aJournal : distributor.getJournals().values()) {
 	    JournalListElements.add(aJournal);
 	    journalsListModel.addElement(aJournal.getName());
-	}	
+	}
     }
 
     /**
      * Creates new form JournalNewsGUI
      */
     public JournalNewsGUI() {
-        initComponents();
+	initComponents();
 	initDialogs();
 	checkSaveFile();
-	
+
 	// New models for GUI lists
 	subscribersList.setModel(subscribersListModel);
 	journalsList.setModel(journalsListModel);
-	
+
 	// Test values for distributor.
-//	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
-//	distributor.addJournal(new Journal("Great Planet", "4354", 2, 50));
-//	distributor.addSubscriber(new Individual("Ahmet", "address1"));
-//	distributor.addSubscriber(new Corporation("Lone Worker", "address2"));
+	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
+	distributor.addJournal(new Journal("Great Planet", "4354", 2, 50));
+	distributor.addSubscriber(new Individual("Ahmet", "address1"));
+	distributor.addSubscriber(new Corporation("Lone Worker", "address2"));
     }
 
     /**
@@ -721,10 +721,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)))
                     .addComponent(refreshButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,114 +747,166 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        // Refresh lists when button is pressed.
+	// Refresh lists when button is pressed.
 	refreshGuiLists();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    /**
+     * Return Subscriber details as a String.
+     * @param aSubscriber
+     * @return 
+     */
+    private String getSubscriberDetails(Subscriber aSubscriber) {
+	String details = "";
+
+	// Saving Subscriber details.
+	if (aSubscriber instanceof Individual) {
+	    details += "Type: Individual\n\n";
+	} else {
+	    details += "Type: Corporation\n\n";
+	}
+	details += aSubscriber.getName() + "\n";
+	details += aSubscriber.getAddress() + "\n";
+	details += "\n";
+	details += aSubscriber.getBillingInformation() + "\n";
+
+	return details;
+    }
+
+    /**
+     * Return Journal details as a String.
+     * @param aJournal
+     * @return 
+     */
+    private String getJournalDetails(Journal aJournal) {
+	String details = "";
+
+	// Saving Journal details.
+	details += "Type: Journal\n\n";
+	details += aJournal.getName() + "\n";
+	details += aJournal.getIssn() + "\n";
+	details += aJournal.getFrequency() + "\n";
+	details += Double.toString(aJournal.getIssuePrice()) + "\n";
+
+	return details;
+    }
+    
+    /**
+     * Return details about a Subscription.
+     * @param aSubscription
+     * @return 
+     */
+    private String getSubscriptionDetails(Subscription aSubscription) {
+	String details = "";
+	
+	// Saving Subscription details.
+	details += "\nSubscription:\n";
+	details += "Name: " + aSubscription.getJournal().getName()+ "\n";
+	details += "ISSN: " + aSubscription.getJournal().getIssn() + "\n";
+	details += "Copies: " + aSubscription.getCopies() + "\n";
+	details += "Start: " + aSubscription.getDates().getStartDate() + "\n";
+	details += "End: " + aSubscription.getDates().getEndDate()+ "\n";
+	
+	return details;
+    }
+
     private void subscribersListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_subscribersListValueChanged
-        // When subscriber list item selected, show details.
+	// When subscriber list item selected, show details.
 	if (subscribersList.getValueIsAdjusting() == false) {
-	    
+
 	    if (subscribersList.getSelectedIndex() != -1) {
 		// Selected something.
-		
+
 		// Clear written text.
 		detailsTextArea.setText(null);
-		
+
 		// Getting Subscriber object.
 		int i = subscribersList.getSelectedIndex();
 		Subscriber aSubscriber = subscriberListElements.get(i);
+		detailsTextArea.append(getSubscriberDetails(aSubscriber));
 		
-		// Writing Subscriber details.
-		if (aSubscriber instanceof Individual) {
-		    detailsTextArea.append("Type: Individual\n\n");
-		} else {
-		    detailsTextArea.append("Type: Corporation\n\n");
+		// Get Subscriber Subscriptions.
+		for (Subscription aSubscription : 
+			distributor.listSubscriberSubscriptions(aSubscriber.getName())) {
+		    detailsTextArea.append(getSubscriptionDetails(aSubscription));
 		}
-		detailsTextArea.append(aSubscriber.getName() + "\n");
-		detailsTextArea.append(aSubscriber.getAddress() + "\n");
-		detailsTextArea.append("\n");
-		detailsTextArea.append(aSubscriber.getBillingInformation());
 	    }
-	}
-	
-	else {
+	} else {
 	    // clear journal list selection.
-	    journalsList.clearSelection();    
+	    journalsList.clearSelection();
 	}
 
     }//GEN-LAST:event_subscribersListValueChanged
 
     private void journalsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_journalsListValueChanged
-        // When journal list item selected, show details.
-        if (journalsList.getValueIsAdjusting() == false) {
+	// When journal list item selected, show details.
+	if (journalsList.getValueIsAdjusting() == false) {
 
-            if (journalsList.getSelectedIndex() != -1) {
-                // Selected something.
+	    if (journalsList.getSelectedIndex() != -1) {
+		// Selected something.
 
-                // Clear written text.
-                detailsTextArea.setText(null);
+		// Clear written text.
+		detailsTextArea.setText(null);
 
-                // Getting Subscriber object.
-                int i = journalsList.getSelectedIndex();
-                Journal aJournal = JournalListElements.get(i);
-
-                // Writing Subscriber details.
-                detailsTextArea.append("Type: Journal\n\n");
-                detailsTextArea.append(aJournal.getName() + "\n");
-                detailsTextArea.append(aJournal.getIssn() + "\n");
-                detailsTextArea.append(aJournal.getFrequency()+ "\n");
-                detailsTextArea.append(Double.toString(aJournal.getIssuePrice()));
-            }
-        }
-	
-	else {
+		// Getting Subscriber object.
+		int i = journalsList.getSelectedIndex();
+		Journal aJournal = JournalListElements.get(i);
+		detailsTextArea.append(getJournalDetails(aJournal));
+		
+		// Listing Subscribers of Journal.
+		detailsTextArea.append("\nSubscribers:\n");
+		for (Subscription aSubscription : 
+			distributor.listIssnSubscriptions(aJournal.getIssn())) {
+		    detailsTextArea.append(aSubscription.getSubscriber().getName() + "\n");
+		}
+	    }
+	} else {
 	    // Clear subscriber list selection.
 	    subscribersList.clearSelection();
 	}
     }//GEN-LAST:event_journalsListValueChanged
 
     private void newJournalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newJournalMenuItemActionPerformed
-        // User clicked on 'New Journal...' menu item.
+	// User clicked on 'New Journal...' menu item.
 	// Reset dialog fields.
 	resetNewJournalDialog();
 	newJournalDialog.setVisible(true);
-	
+
     }//GEN-LAST:event_newJournalMenuItemActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // User clicked 'Ready' at newJournalDialog.
-	
+	// User clicked 'Ready' at newJournalDialog.
+
 	// Get user input.
 	// TODO: Prevent wrong character errors.
 	String name = newJournalName.getText();
 	String issn = newJournalIssn.getText();
 	int frequency = Integer.parseInt(newJournalFreq.getText());
 	double price = Double.parseDouble(newJournalPrice.getText());
-	
+
 	// New Journal instance.
 	Journal newJournal = new Journal(name, issn, frequency, price);
 	distributor.addJournal(newJournal);
-	
+
 	// Hide dialog.
 	newJournalDialog.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // User clicked 'Cancel' at newJournalDialog.
+	// User clicked 'Cancel' at newJournalDialog.
 	resetNewJournalDialog();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void newIndividualMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newIndividualMenuItemActionPerformed
-        // User clicked on 'New Individual...'.
+	// User clicked on 'New Individual...'.
 	// Reset dialog fields.
 	resetNewIndividualDialog();
 	newIndividualDialog.setVisible(true);
     }//GEN-LAST:event_newIndividualMenuItemActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // User clicked 'Ready' at newIndividualDialog.
-	
+	// User clicked 'Ready' at newIndividualDialog.
+
 	// Get user input.
 	String name = newIndividualName.getText();
 	String addr = newIndividualAddr.getText();
@@ -860,30 +914,30 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	int expireMonth = Integer.parseInt(newIndividualExpireMonth.getText());
 	int expireYear = Integer.parseInt(newIndividualExpireYear.getText());
 	int cvv = Integer.parseInt(newIndividualCVV.getText());
-	
+
 	// New Individual.
 	Individual newIndividual = new Individual(name, addr);
 	newIndividual.setCreditCardNr(card);
 	newIndividual.setExpireDate(expireMonth, expireYear);
 	newIndividual.setCVV(cvv);
 	distributor.addSubscriber(newIndividual);
-	
+
 	// Hide dialog.
 	newIndividualDialog.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // User clicked 'Cancel' at newIndividualDialog.
+	// User clicked 'Cancel' at newIndividualDialog.
 	resetNewIndividualDialog();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // User clicked 'Cancel' at newCorporationDialog.
+	// User clicked 'Cancel' at newCorporationDialog.
 	resetNewCorporationDialog();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // User clicked 'Ready' at newCorporationDialog.
+	// User clicked 'Ready' at newCorporationDialog.
 
 	// Get user input.
 	String name = newCorpName.getText();
@@ -894,7 +948,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	int month = Integer.parseInt(newCorpIssueMonth.getText());
 	int year = Integer.parseInt(newCorpIssueYear.getText());
 	int account = Integer.parseInt(newCorpAccountNr.getText());
-	
+
 	// New Corporation.
 	Corporation newCorporation = new Corporation(name, addr);
 	newCorporation.setBankName(bank);
@@ -902,56 +956,58 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newCorporation.setIssueDate(day, month, year);
 	newCorporation.setAccountNumber(account);
 	distributor.addSubscriber(newCorporation);
-	
+
 	// Hide dialog.
 	newCorporationDialog.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void newCorpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCorpMenuItemActionPerformed
-        // User clicked 'New Corporation...'
+	// User clicked 'New Corporation...'
 	// Reset dialog fields.
 	resetNewCorporationDialog();
 	newCorporationDialog.setVisible(true);
     }//GEN-LAST:event_newCorpMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // User selected 'Save'
+	// User selected 'Save'
 	distributor.saveState(defaultSaveFileName);
 	loadMenuItem.setEnabled(true);
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
-        // User selected 'Load'
+	// User selected 'Load'
 	distributor.readState(defaultSaveFileName);
 	refreshGuiLists();
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
     private void newSubscriptionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSubscriptionMenuItemActionPerformed
-        // User selected new subscription.
+	// User selected new subscription.
 	resetNewSubscriptionDialog();
 	newSubscriptionDialog.setVisible(true);
     }//GEN-LAST:event_newSubscriptionMenuItemActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // User clicked 'Ready' on newSubscriptionDialog.
-	
+	// User clicked 'Ready' on newSubscriptionDialog.
+
 	// Get user input.
 	int copies = Integer.parseInt(copiesField.getText());
 	int month = Integer.parseInt(startMonthField.getText());
 	int year = Integer.parseInt(startYearField.getText());
-	
+
 	// Get Journal and Subscriber selections.
 	Journal journal = JournalListElements
 		.get(journalsComboBox.getSelectedIndex());
 	Subscriber subscriber = subscriberListElements
-		.get(subscribersList.getSelectedIndex());
-	
+		.get(subscribersComboBox.getSelectedIndex());
+
 	// New subscription.
-	Subscription s = new Subscription(new DateInfo(month, year), copies, 
+	Subscription s = new Subscription(new DateInfo(month, year), copies,
 		journal, subscriber);
 	distributor.addSubscription(journal.getIssn(), subscriber, s);
+	
+	newSubscriptionDialog.setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
-    
+
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
 	newJournalDialog.pack();
@@ -960,7 +1016,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newJournalFreq.setText(null);
 	newJournalPrice.setText(null);
     }
-    
+
     private void resetNewIndividualDialog() {
 	// Reset newIndividaulDialog instance.
 	newIndividualDialog.pack();
@@ -971,7 +1027,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newIndividualExpireYear.setText(null);
 	newIndividualCVV.setText(null);
     }
-    
+
     private void resetNewCorporationDialog() {
 	// Reset newCorporationDialog instance.
 	newCorporationDialog.pack();
@@ -984,14 +1040,14 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newCorpIssueYear.setText(null);
 	newCorpAccountNr.setText(null);
     }
-    
+
     private void resetNewSubscriptionDialog() {
 	// Reset dialog.
 	newSubscriptionDialog.pack();
 	copiesField.setText(null);
 	startMonthField.setText(null);
 	startYearField.setText(null);
-	
+
 	// Load items from lists.
 	DefaultComboBoxModel model;
 	model = new DefaultComboBoxModel<>(subscribersListModel.toArray());
@@ -999,47 +1055,47 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	model = new DefaultComboBoxModel<>(journalsListModel.toArray());
 	journalsComboBox.setModel(model);
     }
-    
+
     private void initDialogs() {
 	// Init dialogs.
 	newJournalDialog.pack();
 	newIndividualDialog.pack();
 	newCorporationDialog.pack();
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+	/* Set the Nimbus look and feel */
+	//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+	/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+	 */
+	try {
+	    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+		if ("Nimbus".equals(info.getName())) {
+		    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+		    break;
+		}
+	    }
+	} catch (ClassNotFoundException ex) {
+	    java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (InstantiationException ex) {
+	    java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (IllegalAccessException ex) {
+	    java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+	    java.util.logging.Logger.getLogger(JournalNewsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+	}
+	//</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JournalNewsGUI().setVisible(true);
-            }
-        });
+	/* Create and display the form */
+	java.awt.EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+		new JournalNewsGUI().setVisible(true);
+	    }
+	});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

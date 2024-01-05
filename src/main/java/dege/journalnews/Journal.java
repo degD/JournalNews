@@ -1,14 +1,13 @@
 package dege.journalnews;
 
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 public class Journal implements java.io.Serializable {
 
     private final String name, issn;
     private final int frequency;
     private final double issuePrice;
-    private Vector<Subscription> subscriptions;
+    private Vector<Subscription> subscriptions = new Vector<>();
 
     public Journal(String name, String issn, int frequency, double issuePrice) {
 	this.name = name;

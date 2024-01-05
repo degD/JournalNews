@@ -1,6 +1,6 @@
 package dege.journalnews;
 
-public class PaymentInfo {
+public class PaymentInfo implements java.io.Serializable{
 
     private final double discountRatio;
     private double receivedPayment = 0;

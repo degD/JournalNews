@@ -1,6 +1,6 @@
 package dege.journalnews;
 
-public class DateInfo {
+public class DateInfo implements java.io.Serializable{
 	
 	private final int startMonth, startYear;
 	private final int endMonth, endYear;
