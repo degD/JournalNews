@@ -90,13 +90,10 @@ public class Subscription implements java.io.Serializable{
 	return false;
     }
 
-    public boolean isSubscribed(int month, int year) {
+    public boolean isExpired(int month, int year) {
 	int endDateNr = dates.getEndMonth() + (dates.getEndYear() - dates.getStartYear()) * 12;
 	int currentDateNr = month + (year - dates.getStartYear()) * 12;
-	if (endDateNr >= currentDateNr) {
-	    return true;
-	}
-	return false;
+	return endDateNr < currentDateNr;
     }
 
     public double getCompletePaymentAmount() {

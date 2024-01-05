@@ -96,7 +96,7 @@ public class Distributor implements java.io.Serializable {
 	Vector<Subscriber> subscribersToSend = new Vector<>();
 
 	for (Subscription aSubscription : aJournal.getSubscriptions()) {
-	    if (aSubscription.isSubscribed(month, year) && aSubscription.canSend(month)) {
+	    if (!aSubscription.isExpired(month, year) && aSubscription.canSend(month)) {
 		subscribersToSend.add(aSubscription.getSubscriber());
 	    }
 	}
@@ -170,5 +170,47 @@ public class Distributor implements java.io.Serializable {
 	} catch (ClassNotFoundException e) {
 	    e.printStackTrace();
 	}
+    }
+    
+    /**
+     * Return Vector of all Subscriptions.
+     * @return 
+     */
+    public Vector<Subscription> listAllSubscriptions() {
+	Vector<Subscription> subscriptions = new Vector<>();
+	for (Subscriber aSubscriber : subscribers) {
+	    subscriptions.addAll(listSubscriberSubscriptions(aSubscriber.getName()));
+	}
+	return subscriptions;
+    }
+    
+    /**
+     * Return expired Subscriptions.
+     * @param month
+     * @param year
+     * @return 
+     */
+    public Vector<Subscription> expiredSubscriptions(int month, int year) {
+	Vector<Subscription> subscriptions = new Vector<>();
+	for (Subscription aSubscription : listAllSubscriptions()) {
+	    if (aSubscription.isExpired(month, year)) 
+		subscriptions.add(aSubscription);
+	}
+	return subscriptions;
+    }
+    
+    public synchronized String report(int month, int year) {
+	String reportString = "REPORT:\n\n";
+	
+	// Add expired subscriptions to report.
+	reportString += "Expired subscriptions:\n";
+	for (Subscription s : expiredSubscriptions(month, year)) {
+	    reportString += s.getSubscriber().getName() + "->" + 
+		    s.getJournal().getName() + "\n";
+	}
+	
+	// TODO: Received annual payments in a given year range.
+	
+	return reportString;
     }
 }
