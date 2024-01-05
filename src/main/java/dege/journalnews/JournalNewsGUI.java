@@ -94,6 +94,24 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         newCorporationDialog = new javax.swing.JDialog();
+        jLabel12 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        newCorpName = new javax.swing.JTextField();
+        newCorpAddr = new javax.swing.JTextField();
+        newCorpBankCode = new javax.swing.JTextField();
+        newCorpBankName = new javax.swing.JTextField();
+        newCorpIssueDay = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        newCorpAccountNr = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        newCorpIssueMonth = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        newCorpIssueYear = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         subscribersList = new javax.swing.JList<>();
@@ -303,15 +321,128 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        newCorporationDialog.setTitle("New Corporation");
+
+        jLabel12.setText("Address");
+
+        jButton5.setText("Ready");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Bank Code");
+
+        jButton6.setText("Cancel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Bank Name");
+
+        jLabel15.setText("Day");
+
+        jLabel16.setText("Account Number");
+
+        jLabel17.setText("Name");
+
+        jLabel18.setText("Month");
+
+        jLabel19.setText("Year");
+
         javax.swing.GroupLayout newCorporationDialogLayout = new javax.swing.GroupLayout(newCorporationDialog.getContentPane());
         newCorporationDialog.getContentPane().setLayout(newCorporationDialogLayout);
         newCorporationDialogLayout.setHorizontalGroup(
             newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpAddr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpBankCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpBankName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpIssueDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpIssueYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpIssueMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpAccountNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newCorpName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        newCorporationDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18, jLabel19});
+
+        newCorporationDialogLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newCorpAccountNr, newCorpAddr, newCorpBankCode, newCorpBankName, newCorpIssueDay, newCorpIssueMonth, newCorpIssueYear, newCorpName});
+
         newCorporationDialogLayout.setVerticalGroup(
             newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(newCorporationDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(newCorpName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(newCorpAddr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(newCorpBankCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(newCorpBankName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(newCorpIssueDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(newCorpIssueMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(newCorpIssueYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(newCorpAccountNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(newCorporationDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -388,6 +519,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jMenu4.add(newIndividualMenuItem);
 
         newCorpMenuItem.setText("New Corporation...");
+        newCorpMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newCorpMenuItemActionPerformed(evt);
+            }
+        });
         jMenu4.add(newCorpMenuItem);
 
         jMenu2.add(jMenu4);
@@ -547,6 +683,41 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         // User clicked 'Cancel' at newIndividualDialog.
 	resetNewIndividualDialog();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // User clicked 'Cancel' at newCorporationDialog.
+	resetNewCorporationDialog();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // User clicked 'Ready' at newCorporationDialog.
+	
+	// Get user input.
+	String name = newCorpName.getText();
+	String addr = newCorpAddr.getText();
+	String bank = newCorpBankName.getText();
+	int code = Integer.parseInt(newCorpBankCode.getText());
+	int day = Integer.parseInt(newCorpIssueDay.getText());
+	int month = Integer.parseInt(newCorpIssueMonth.getText());
+	int year = Integer.parseInt(newCorpIssueYear.getText());
+	int account = Integer.parseInt(newCorpAccountNr.getText());
+	
+	// New Corporation.
+	Corporation newCorporation = new Corporation(name, addr);
+	newCorporation.setBankName(bank);
+	newCorporation.setBankCode(code);
+	newCorporation.setIssueDate(day, month, year);
+	newCorporation.setAccountNumber(account);
+	distributor.addSubscriber(newCorporation);
+	
+	// Reset dialog fields.
+	resetNewCorporationDialog();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void newCorpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCorpMenuItemActionPerformed
+        // User clicked 'New Corporation...'
+	newCorporationDialog.setVisible(true);
+    }//GEN-LAST:event_newCorpMenuItemActionPerformed
     
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
@@ -570,10 +741,25 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	newIndividualDialog.setVisible(false);
     }
     
+    private void resetNewCorporationDialog() {
+	// Reset newCorporationDialog instance.
+	newCorporationDialog.pack();
+	newCorpName.setText(null);
+	newCorpAddr.setText(null);
+	newCorpBankCode.setText(null);
+	newCorpBankName.setText(null);
+	newCorpIssueDay.setText(null);
+	newCorpIssueMonth.setText(null);
+	newCorpIssueYear.setText(null);
+	newCorpAccountNr.setText(null);
+	newCorporationDialog.setVisible(false);
+    }
+    
     private void initDialogs() {
 	// Init dialogs.
 	newJournalDialog.pack();
 	newIndividualDialog.pack();
+	newCorporationDialog.pack();
     }
     
     /**
@@ -617,9 +803,19 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -638,7 +834,15 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> journalsList;
+    private javax.swing.JTextField newCorpAccountNr;
+    private javax.swing.JTextField newCorpAddr;
+    private javax.swing.JTextField newCorpBankCode;
+    private javax.swing.JTextField newCorpBankName;
+    private javax.swing.JTextField newCorpIssueDay;
+    private javax.swing.JTextField newCorpIssueMonth;
+    private javax.swing.JTextField newCorpIssueYear;
     private javax.swing.JMenuItem newCorpMenuItem;
+    private javax.swing.JTextField newCorpName;
     private javax.swing.JDialog newCorporationDialog;
     private javax.swing.JTextField newIndividualAddr;
     private javax.swing.JTextField newIndividualCVV;
