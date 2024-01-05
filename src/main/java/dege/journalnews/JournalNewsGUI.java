@@ -4,6 +4,7 @@
  */
 package dege.journalnews;
 
+import java.io.File;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 
@@ -20,10 +21,20 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private final DefaultListModel subscribersListModel = new DefaultListModel();
     private final DefaultListModel journalsListModel = new DefaultListModel();
     
+    
+    /**
+     * Disables menu LOAD option if the save file does not exist.
+     */
+    private void checkSaveFile() {
+	File saveFile = new File(defaultSaveFileName);
+	if (!saveFile.isFile())
+	    loadMenuItem.setEnabled(false);
+    }
+    
     /**
      * Refresh GUI subscribers and journals lists.
      */
-    public void refreshGuiLists() {
+    private void refreshGuiLists() {
 	// Clear contents.
 	subscribersListModel.clear();
 	journalsListModel.clear();
@@ -47,15 +58,17 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     public JournalNewsGUI() {
         initComponents();
 	initDialogs();
+	checkSaveFile();
 	
-	// Test values for distributor.
-	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
-	distributor.addJournal(new Journal("Great Planet", "4354", 2, 50));
-	distributor.addSubscriber(new Individual("Ahmet", "address1"));
-	distributor.addSubscriber(new Corporation("Lone Worker", "address2"));
-	
+	// New models for GUI lists
 	subscribersList.setModel(subscribersListModel);
 	journalsList.setModel(journalsListModel);
+	
+	// Test values for distributor.
+//	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
+//	distributor.addJournal(new Journal("Great Planet", "4354", 2, 50));
+//	distributor.addSubscriber(new Individual("Ahmet", "address1"));
+//	distributor.addSubscriber(new Corporation("Lone Worker", "address2"));
     }
 
     /**
@@ -748,11 +761,13 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // User selected 'Save'
 	distributor.saveState(defaultSaveFileName);
+	loadMenuItem.setEnabled(true);
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
         // User selected 'Load'
 	distributor.readState(defaultSaveFileName);
+	refreshGuiLists();
     }//GEN-LAST:event_loadMenuItemActionPerformed
     
     private void resetNewJournalDialog() {
