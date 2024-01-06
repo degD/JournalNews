@@ -16,8 +16,8 @@ public class Journal implements java.io.Serializable {
 	this.issuePrice = issuePrice;
     }
 
-    public void addSubscription(Subscription aSubscriber) {
-	subscriptions.add(aSubscriber);
+    public void addSubscription(Subscription aSubscription) {
+	subscriptions.add(aSubscription);
     }
 
     public String getName() {
@@ -45,10 +45,9 @@ public class Journal implements java.io.Serializable {
     }
     
     /**
-     * Return the first subscription with subscriber aSubscriber.
-     * Return -1 if does not exist.
-     * @param aSubscriber
-     * @return 
+     * Returns the first subscription with subscriber, 'aSubscriber'.
+     * @param aSubscriber Subscriber instance.
+     * @return index of aSubscriber. If cannot find, return -1.
      */
     public int findSubscription(Subscriber aSubscriber) {
 	for (int i = 0; i < subscriptions.size(); i++) {

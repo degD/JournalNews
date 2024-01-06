@@ -4,14 +4,17 @@
  */
 package dege.journalnews;
 
-import java.util.Hashtable;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.util.Vector;
-import org.junit.After;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -19,260 +22,73 @@ import static org.junit.Assert.*;
  */
 public class DistributorTest {
     
+    private Distributor d;
+    private Journal j1 = new Journal("jou1", "1234", 12, 36);
+    private Journal j2 = new Journal("jou2", "2345", 6, 60);
+    private Subscriber s1 = new Individual("i", "addr");
+    private Subscriber s2 = new Corporation("c", "cat");
+    
     public DistributorTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
+    @Before
+    public void setup() {
+	d = new Distributor();
+	d.addJournal(j1);
+	d.addJournal(j2);
+	d.addSubscriber(s1);
+	d.addSubscriber(s2);
+    }
+
+    @Test
+    public void testAddSubscription() {
+	assertTrue("A new subscription.", 
+		d.addSubscription(j1.getIssn(), s1, new Subscription(null, 1, j1, s1)));
+	assertTrue("An existing subscription.",
+		d.addSubscription(j1.getIssn(), s1, new Subscription(null, 2, j1, s1)));
+	
+	assertEquals("Should increase number of copies.", 
+		3, d.listIssnSubscriptions(j1.getIssn()).get(0));
+	
+	assertTrue("With null values.", d.addSubscription(null, null, null));
+    }
+    
+    @Test
+    public void testListingIncomplete() {
+	d.addSubscription("1234", s1, new Subscription(new DateInfo(1, 1), 1, j1, s1));
+	assertEquals(1, d.listIncompletePayments().size());
+	
+	d.listIncompletePayments().get(0).acceptPayment(1000);
+	assertEquals(0, d.listIncompletePayments().size());
+    }
+    
+    @Test
+    public void testListingSendingOrders() {
+	d.addSubscription("1234", s1, new Subscription(new DateInfo(1, 1), 1, j1, s1));
+	assertEquals(0, d.listAllSendingOrders(1, 1).size());
+	
+	d.listIncompletePayments().get(0).acceptPayment(1000);
+	assertEquals(1, d.listAllSendingOrders(1, 1).size());
+	assertEquals(1, d.listAllSendingOrders(4, 1).size());
+	assertEquals(0, d.listAllSendingOrders(4, 1).size());
+    }
+    
+    @Test
+    public void testFileIO() {
+	d.saveState("test.save");
+	assertTrue((new File("test.save")).exists());
+	
+	Distributor x = new Distributor();
+	x.readState("test.save");
+	assertEquals(d, x);
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public void cleanup() {
+	try {
+	    Files.deleteIfExists((new File("test.save").toPath()));
+	} catch (IOException ex) {
+	    Logger.getLogger(DistributorTest.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of getJournals method, of class Distributor.
-     */
-    @Test
-    public void testGetJournals() {
-	System.out.println("getJournals");
-	Distributor instance = new Distributor();
-	Hashtable<String, Journal> expResult = null;
-	Hashtable<String, Journal> result = instance.getJournals();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setJournals method, of class Distributor.
-     */
-    @Test
-    public void testSetJournals() {
-	System.out.println("setJournals");
-	Hashtable<String, Journal> journals = null;
-	Distributor instance = new Distributor();
-	instance.setJournals(journals);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSubscribers method, of class Distributor.
-     */
-    @Test
-    public void testGetSubscribers() {
-	System.out.println("getSubscribers");
-	Distributor instance = new Distributor();
-	Vector<Subscriber> expResult = null;
-	Vector<Subscriber> result = instance.getSubscribers();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setSubscribers method, of class Distributor.
-     */
-    @Test
-    public void testSetSubscribers() {
-	System.out.println("setSubscribers");
-	Vector<Subscriber> subscribers = null;
-	Distributor instance = new Distributor();
-	instance.setSubscribers(subscribers);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addJournal method, of class Distributor.
-     */
-    @Test
-    public void testAddJournal() {
-	System.out.println("addJournal");
-	Journal aJournal = null;
-	Distributor instance = new Distributor();
-	boolean expResult = false;
-	boolean result = instance.addJournal(aJournal);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of searchJournal method, of class Distributor.
-     */
-    @Test
-    public void testSearchJournal() {
-	System.out.println("searchJournal");
-	String issn = "";
-	Distributor instance = new Distributor();
-	Journal expResult = null;
-	Journal result = instance.searchJournal(issn);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addSubscriber method, of class Distributor.
-     */
-    @Test
-    public void testAddSubscriber() {
-	System.out.println("addSubscriber");
-	Subscriber aSubscriber = null;
-	Distributor instance = new Distributor();
-	boolean expResult = false;
-	boolean result = instance.addSubscriber(aSubscriber);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of searchSubscriber method, of class Distributor.
-     */
-    @Test
-    public void testSearchSubscriber() {
-	System.out.println("searchSubscriber");
-	String name = "";
-	Distributor instance = new Distributor();
-	Subscriber expResult = null;
-	Subscriber result = instance.searchSubscriber(name);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addSubscription method, of class Distributor.
-     */
-    @Test
-    public void testAddSubscription() {
-	System.out.println("addSubscription");
-	String issn = "";
-	Subscriber aSubscriber = null;
-	Subscription aSubscription = null;
-	Distributor instance = new Distributor();
-	boolean expResult = false;
-	boolean result = instance.addSubscription(issn, aSubscriber, aSubscription);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listAllSendingOrders method, of class Distributor.
-     */
-    @Test
-    public void testListAllSendingOrders() {
-	System.out.println("listAllSendingOrders");
-	int month = 0;
-	int year = 0;
-	Distributor instance = new Distributor();
-	instance.listAllSendingOrders(month, year);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listSendingOrders method, of class Distributor.
-     */
-    @Test
-    public void testListSendingOrders() {
-	System.out.println("listSendingOrders");
-	String issn = "";
-	int month = 0;
-	int year = 0;
-	Distributor instance = new Distributor();
-	instance.listSendingOrders(issn, month, year);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAllSubscriptions method, of class Distributor.
-     */
-    @Test
-    public void testGetAllSubscriptions() {
-	System.out.println("getAllSubscriptions");
-	Distributor instance = new Distributor();
-	Vector<Subscription> expResult = null;
-	Vector<Subscription> result = instance.getAllSubscriptions();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listIncompletePayments method, of class Distributor.
-     */
-    @Test
-    public void testListIncompletePayments() {
-	System.out.println("listIncompletePayments");
-	Distributor instance = new Distributor();
-	instance.listIncompletePayments();
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listSubscriberSubscriptions method, of class Distributor.
-     */
-    @Test
-    public void testListSubscriberSubscriptions() {
-	System.out.println("listSubscriberSubscriptions");
-	String SubscriberName = "";
-	Distributor instance = new Distributor();
-	instance.listSubscriberSubscriptions(SubscriberName);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of listIssnSubscriptions method, of class Distributor.
-     */
-    @Test
-    public void testListIssnSubscriptions() {
-	System.out.println("listIssnSubscriptions");
-	String issn = "";
-	Distributor instance = new Distributor();
-	instance.listIssnSubscriptions(issn);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of saveState method, of class Distributor.
-     */
-    @Test
-    public void testSaveState() {
-	System.out.println("saveState");
-	String filename = "test.save";
-	Distributor instance = new Distributor();
-	instance.saveState(filename);
-	
-    }
-
-    /**
-     * Test of readState method, of class Distributor.
-     */
-    @Test
-    public void testReadState() {
-	System.out.println("readState");
-	String filename = "";
-	Distributor instance = new Distributor();
-	instance.readState(filename);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-    
 }
