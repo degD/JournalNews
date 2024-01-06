@@ -19,9 +19,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private final String defaultSaveFileName = "distributor-state.save";
     private Distributor distributor = new Distributor();
     private final Vector<Subscriber> subscriberListElements = new Vector<>();
-    private final Vector<Journal> JournalListElements = new Vector<>();
+    private final Vector<Journal> journalListElements = new Vector<>();
+    private final Vector<Subscription> subscriptionsListElements = new Vector<>();
     private final DefaultListModel subscribersListModel = new DefaultListModel();
     private final DefaultListModel journalsListModel = new DefaultListModel();
+    private final DefaultListModel subscriptionsListModel = new DefaultListModel();
 
     /**
      * Disables menu LOAD option if the save file does not exist.
@@ -41,7 +43,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	subscribersListModel.clear();
 	journalsListModel.clear();
 	subscriberListElements.clear();
-	JournalListElements.clear();
+	journalListElements.clear();
+	subscriptionsListModel.clear();
+	subscriptionsListElements.clear();
 
 	// Populate lists.
 	for (Subscriber aSubscriber : distributor.getSubscribers()) {
@@ -49,8 +53,16 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	    subscribersListModel.addElement(aSubscriber.getName());
 	}
 	for (Journal aJournal : distributor.getJournals().values()) {
-	    JournalListElements.add(aJournal);
+	    journalListElements.add(aJournal);
 	    journalsListModel.addElement(aJournal.getName());
+	}
+	for (Subscription aSubscription : distributor.listAllSubscriptions()) {
+	    subscriptionsListElements.add(aSubscription);
+	    subscriptionsListModel.addElement(String.format("%s -> %s (%s-%s)", 
+		    aSubscription.getSubscriber().getName(),
+		    aSubscription.getJournal().getName(),
+		    aSubscription.getDates().getStartDate(),
+		    aSubscription.getDates().getEndDate()));
 	}
     }
 
@@ -65,6 +77,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	// New models for GUI lists
 	subscribersList.setModel(subscribersListModel);
 	journalsList.setModel(journalsListModel);
+	subscriptionsList.setModel(subscriptionsListModel);
 
 	// Test values for distributor.
 	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
@@ -146,8 +159,10 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         subscribersList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         journalsList = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        subscriptionsList = new javax.swing.JList<>();
         refreshButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         detailsTextArea = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -633,7 +648,19 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Journals", jScrollPane2);
 
-        jLabel2.setText("Details");
+        subscriptionsList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        subscriptionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                subscriptionsListValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(subscriptionsList);
+
+        jTabbedPane1.addTab("Subscriptions", jScrollPane4);
 
         refreshButton.setText("Refresh");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
@@ -642,11 +669,30 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Details"));
+
         detailsTextArea.setEditable(false);
         detailsTextArea.setColumns(15);
         detailsTextArea.setLineWrap(true);
         detailsTextArea.setRows(5);
         jScrollPane3.setViewportView(detailsTextArea);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addGap(16, 16, 16))
+        );
 
         fileMenu.setText("File");
 
@@ -718,14 +764,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)))
-                    .addComponent(refreshButton))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(refreshButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -733,10 +777,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refreshButton)
@@ -800,8 +841,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	String details = "";
 	
 	// Saving Subscription details.
-	details += "\nSubscription:\n";
-	details += "Name: " + aSubscription.getJournal().getName()+ "\n";
+	details += "Subscription:\n";
+	details += "Journal: " + aSubscription.getJournal().getName()+ "\n";
 	details += "ISSN: " + aSubscription.getJournal().getIssn() + "\n";
 	details += "Copies: " + aSubscription.getCopies() + "\n";
 	details += "Start: " + aSubscription.getDates().getStartDate() + "\n";
@@ -828,14 +869,14 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 		// Get Subscriber Subscriptions.
 		for (Subscription aSubscription : 
 			distributor.listSubscriberSubscriptions(aSubscriber.getName())) {
-		    detailsTextArea.append(getSubscriptionDetails(aSubscription));
+		    detailsTextArea.append(aSubscription.getJournal().getName() + "\n");
 		}
 	    }
 	} else {
 	    // clear journal list selection.
 	    journalsList.clearSelection();
+	    subscriptionsList.clearSelection();
 	}
-
     }//GEN-LAST:event_subscribersListValueChanged
 
     private void journalsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_journalsListValueChanged
@@ -850,7 +891,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
 		// Getting Subscriber object.
 		int i = journalsList.getSelectedIndex();
-		Journal aJournal = JournalListElements.get(i);
+		Journal aJournal = journalListElements.get(i);
 		detailsTextArea.append(getJournalDetails(aJournal));
 		
 		// Listing Subscribers of Journal.
@@ -863,6 +904,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	} else {
 	    // Clear subscriber list selection.
 	    subscribersList.clearSelection();
+	    subscriptionsList.clearSelection();
 	}
     }//GEN-LAST:event_journalsListValueChanged
 
@@ -995,7 +1037,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	int year = Integer.parseInt(startYearField.getText());
 
 	// Get Journal and Subscriber selections.
-	Journal journal = JournalListElements
+	Journal journal = journalListElements
 		.get(journalsComboBox.getSelectedIndex());
 	Subscriber subscriber = subscriberListElements
 		.get(subscribersComboBox.getSelectedIndex());
@@ -1007,6 +1049,28 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	
 	newSubscriptionDialog.setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void subscriptionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_subscriptionsListValueChanged
+        // User selected a Subscription from the list.
+	if (subscriptionsList.getValueIsAdjusting() == false) {
+
+	    if (subscriptionsList.getSelectedIndex() != -1) {
+		// Selected something.
+
+		// Clear written text.
+		detailsTextArea.setText(null);
+
+		// Getting Subscription object.
+		int i = subscriptionsList.getSelectedIndex();
+		Subscription aSubscription = subscriptionsListElements.get(i);
+		detailsTextArea.append(getSubscriptionDetails(aSubscription));
+	    }
+	} else {
+	    // Clear subscriber list selection.
+	    subscribersList.clearSelection();
+	    journalsList.clearSelection();
+	}
+    }//GEN-LAST:event_subscriptionsListValueChanged
 
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
@@ -1122,7 +1186,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1138,9 +1201,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox<String> journalsComboBox;
     private javax.swing.JList<String> journalsList;
@@ -1177,5 +1242,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JTextField startYearField;
     private javax.swing.JComboBox<String> subscribersComboBox;
     private javax.swing.JList<String> subscribersList;
+    private javax.swing.JList<String> subscriptionsList;
     // End of variables declaration//GEN-END:variables
 }
