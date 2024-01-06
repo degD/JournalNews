@@ -35,6 +35,6 @@ public class Individual extends Subscriber {
 	@Override
 	public String toString() {
 		return "Individual [creditCardNr=" + creditCardNr + ", expireMonth=" + expireMonth + ", expireYear="
-				+ expireYear + ", CVV=" + CVV + ", name=" + name + ", address=" + address + "]";
+				+ expireYear + ", CVV=" + CVV + ", name=" + getName() + ", address=" + getAddress() + "]";
 	}
 }

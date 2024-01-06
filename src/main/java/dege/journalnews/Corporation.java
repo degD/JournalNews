@@ -43,6 +43,6 @@ public class Corporation extends Subscriber {
 	public String toString() {
 		return "Corporation [bankName=" + bankName + ", bankCode=" + bankCode + ", issueDay=" + issueDay
 				+ ", issueMonth=" + issueMonth + ", issueYear=" + issueYear + ", accountNumber=" + accountNumber
-				+ ", name=" + name + ", address=" + address + "]";
+				+ ", name=" + getName() + ", address=" + getAddress() + "]";
 	}
 }
