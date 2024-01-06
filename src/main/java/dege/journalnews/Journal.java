@@ -68,4 +68,13 @@ public class Journal implements java.io.Serializable {
     public String fancyToString() {
 	return "Journal" + "\nName: " + name + "\nISSN: " + issn + "\nFrequency: " + frequency + "\nPrice: " + issuePrice;
     }
+    
+    public void removeSubscription(Subscriber aSubscriber) {
+	for (int i = 0; i < subscriptions.size(); i++) {
+	    if (subscriptions.get(i).getSubscriber() == aSubscriber) {
+		subscriptions.remove(i);
+		return;
+	    }
+	}
+    }
 }

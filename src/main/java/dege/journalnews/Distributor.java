@@ -25,6 +25,10 @@ public class Distributor implements java.io.Serializable {
     public void setSubscribers(Vector<Subscriber> subscribers) {
 	this.subscribers = subscribers;
     }
+    
+    public void removeJournal(String issn) {
+	journals.remove(issn);
+    }
 
     public boolean addJournal(Journal aJournal) {
 	if (aJournal == null) {
