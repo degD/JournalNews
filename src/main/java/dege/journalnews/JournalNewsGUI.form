@@ -810,7 +810,14 @@
                                           <Component id="setYearField" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="setDateButton" alignment="0" pref="124" max="32767" attributes="0"/>
+                                  <Component id="setDateButton" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="paymentButton" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="paymentTextField" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -839,6 +846,13 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="setDateButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="paymentTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="paymentButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jTabbedPane1" alignment="0" pref="240" max="32767" attributes="0"/>
                   <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
@@ -1049,6 +1063,25 @@
     <Component class="javax.swing.JLabel" name="dateLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Date:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="paymentButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Accept Payment"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paymentButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel24">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Payment Amount: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="paymentTextField">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -174,6 +174,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         setYearField = new javax.swing.JTextField();
         setDateButton = new javax.swing.JButton();
         dateLabel = new javax.swing.JLabel();
+        paymentButton = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        paymentTextField = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -714,6 +717,18 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
         dateLabel.setText("Date:");
 
+        paymentButton.setText("Accept Payment");
+        paymentButton.setEnabled(false);
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setText("Payment Amount: ");
+
+        paymentTextField.setEnabled(false);
+
         fileMenu.setText("File");
 
         saveMenuItem.setText("Save");
@@ -803,7 +818,13 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(setMonthField)
                                             .addComponent(setYearField)))
-                                    .addComponent(setDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                                    .addComponent(setDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(paymentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(paymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())))))
         );
 
@@ -825,7 +846,13 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                             .addComponent(jLabel23)
                             .addComponent(setYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(setDateButton))
+                        .addComponent(setDateButton)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel24)
+                            .addComponent(paymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(paymentButton))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -931,6 +958,10 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 			distributor.listSubscriberSubscriptions(aSubscriber.getName())) {
 		    detailsTextArea.append(aSubscription.getJournal().getName() + "\n");
 		}
+		
+		// Disable 'Accept payment' button.
+		paymentButton.setEnabled(false);
+		paymentTextField.setEnabled(false);
 	    }
 	} else {
 	    // clear journal list selection.
@@ -960,6 +991,10 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 			distributor.listIssnSubscriptions(aJournal.getIssn())) {
 		    detailsTextArea.append(aSubscription.getSubscriber().getName() + "\n");
 		}
+		
+		// Disable 'Accept payment' button.
+		paymentButton.setEnabled(false);
+		paymentTextField.setEnabled(false);
 	    }
 	} else {
 	    // Clear subscriber list selection.
@@ -1124,7 +1159,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 		int i = subscriptionsList.getSelectedIndex();
 		Subscription aSubscription = subscriptionsListElements.get(i);
 		detailsTextArea.append(getSubscriptionDetails(aSubscription));
+		
+		// Enable 'Accept payment' button.
+		paymentButton.setEnabled(true);
+		paymentTextField.setEnabled(true);
 	    }
+	    
 	} else {
 	    // Clear subscriber list selection.
 	    subscribersList.clearSelection();
@@ -1161,6 +1201,17 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	setYearField.setText(null);
     }//GEN-LAST:event_setDateButtonActionPerformed
 
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        // User clicked 'Accept Payment' button.
+	
+	// Read value from payment text field. Accept the value as payment.
+	Subscription s = subscriptionsListElements.get(subscriptionsList.getSelectedIndex());
+	s.acceptPayment(Double.parseDouble(paymentTextField.getText()));
+	
+	// Clear text field.
+	paymentTextField.setText(null);
+    }//GEN-LAST:event_paymentButtonActionPerformed
+   
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
 	newJournalDialog.pack();
@@ -1281,6 +1332,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1328,6 +1380,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JTextField newJournalPrice;
     private javax.swing.JDialog newSubscriptionDialog;
     private javax.swing.JMenuItem newSubscriptionMenuItem;
+    private javax.swing.JButton paymentButton;
+    private javax.swing.JTextField paymentTextField;
     private javax.swing.JButton refreshButton;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton setDateButton;
