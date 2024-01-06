@@ -25,7 +25,7 @@ public class DateInfo implements java.io.Serializable{
 	}
 	
 	public String getEndDate() {
-		return String.format("%d/%d", endMonth, startYear + 1);
+		return String.format("%d/%d", endMonth, endYear);
 	}
 
 	public int getStartMonth() {

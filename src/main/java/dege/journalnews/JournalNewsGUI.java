@@ -177,6 +177,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         paymentButton = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         paymentTextField = new javax.swing.JTextField();
+        jButton9 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -729,6 +730,13 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
         paymentTextField.setEnabled(false);
 
+        jButton9.setText("Generate Report");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         fileMenu.setText("File");
 
         saveMenuItem.setText("Save");
@@ -800,7 +808,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(refreshButton)
-                        .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -856,7 +866,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(refreshButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(refreshButton)
+                    .addComponent(jButton9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1167,9 +1179,14 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 		detailsTextArea.append(getSubscriptionDetails(aSubscription));
 		
 		// Enable 'Accept payment' button.
-		if (!aSubscription.isExpired(month, year)) {
+		if (!aSubscription.isExpired(month, year) && !aSubscription.isPaymentComplete()) {
 		    paymentButton.setEnabled(true);
 		    paymentTextField.setEnabled(true);
+		}
+		
+		else {
+		    paymentButton.setEnabled(false);
+		    paymentTextField.setEnabled(false);    
 		}
 	    }
 	    
@@ -1216,9 +1233,25 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	Subscription s = subscriptionsListElements.get(subscriptionsList.getSelectedIndex());
 	s.acceptPayment(Double.parseDouble(paymentTextField.getText()));
 	
+	// Disable button if payment complete.
+	if (s.isPaymentComplete()) {
+	    paymentButton.setEnabled(false);
+	    paymentTextField.setEnabled(false);    	    
+	}
+	
 	// Clear text field.
 	paymentTextField.setText(null);
     }//GEN-LAST:event_paymentButtonActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // User clicked 'Generate Report'
+	detailsTextArea.setText(distributor.report(month, year));
+	paymentButton.setEnabled(false);
+	paymentTextField.setEnabled(false);
+	subscribersList.clearSelection();
+	journalsList.clearSelection();
+	subscriptionsList.clearSelection();
+    }//GEN-LAST:event_jButton9ActionPerformed
    
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
@@ -1324,6 +1357,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

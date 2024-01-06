@@ -68,12 +68,17 @@ public class Subscription implements java.io.Serializable{
     }
 
     public boolean acceptPayment(double amount) {
-	if (getCompletePaymentAmount() > payment.getReceivedPayment()) {
+	if (getCompletePaymentAmount() > (payment.getReceivedPayment() + amount)) {
 	    payment.increasePayment(amount);
 	    return true;
 	} else {
+	    payment.increasePayment(getCompletePaymentAmount() - payment.getReceivedPayment());
 	    return false;
 	}
+    }
+    
+    public boolean isPaymentComplete() {
+	return getCompletePaymentAmount() == payment.getReceivedPayment();
     }
 
     public boolean canSend(int issueMonth) {
@@ -102,13 +107,6 @@ public class Subscription implements java.io.Serializable{
 
     public double getCompletePaymentAmount() {
 	return getIssuePriceWithDiscount() * journal.getFrequency() * copies;
-    }
-
-    public boolean isPaymentComplete() {
-	if (payment.getReceivedPayment() == getCompletePaymentAmount()) {
-	    return true;
-	}
-	return false;
     }
 
     @Override

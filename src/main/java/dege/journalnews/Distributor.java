@@ -200,16 +200,23 @@ public class Distributor implements java.io.Serializable {
     }
     
     public synchronized String report(int month, int year) {
-	String reportString = "REPORT:\n\n";
+	String reportString = String
+		.format("REPORT (%s/%s-%s/%s)\n\n", month, year-1, month, year);
 	
 	// Add expired subscriptions to report.
 	reportString += "Expired subscriptions:\n";
 	for (Subscription s : expiredSubscriptions(month, year)) {
-	    reportString += s.getSubscriber().getName() + "->" + 
+	    reportString += s.getSubscriber().getName() + " -> " + 
 		    s.getJournal().getName() + "\n";
 	}
 	
-	// TODO: Received annual payments in a given year range.
+	// Find out total received payment.
+	reportString += "\nTotal received payment:\n";
+	for (Subscription s : listAllSubscriptions()) {
+	    if (!s.isExpired(month, year)) {
+		reportString += s.getPayment().getReceivedPayment() + "\n";
+	    }
+	}
 	
 	return reportString;
     }
