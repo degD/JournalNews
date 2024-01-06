@@ -39,6 +39,7 @@ public class Distributor implements java.io.Serializable {
     }
 
     public Journal searchJournal(String issn) {
+	if (issn == null) return null;
 	return journals.get(issn);
     }
 

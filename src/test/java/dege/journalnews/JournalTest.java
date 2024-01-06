@@ -39,7 +39,7 @@ public class JournalTest {
 	j.addSubscription(s);
 	
 	assertEquals(0, j.findSubscription(subscriber));
-	assertEquals(-1, new Corporation("c", "b"));
+	assertEquals(-1, j.findSubscription(new Corporation("c", "b")));
     }
     
     @Test
@@ -49,6 +49,6 @@ public class JournalTest {
 	j.addSubscription(s);
 	
 	j.removeSubscription(subscriber);
-	assertEquals(-1, subscriber);
+	assertEquals(-1, j.findSubscription(subscriber));
     }
 }

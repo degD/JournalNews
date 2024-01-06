@@ -34,9 +34,10 @@ public class SubscriptionTest {
     
     @Test
     public void testCalcDiscount() {
-	assertEquals(0, new Subscription(null, 30, null, null));
-	assertEquals(0, new Subscription(null, 20, null, null));
-	assertEquals(0, new Subscription(null, 10, null, null));
+	assertEquals(0, (new Subscription(null, 1, null, null)).calculateDiscountRatio(), 0.001);
+	assertEquals(5, (new Subscription(null, 10, null, null)).calculateDiscountRatio(), 0.001);
+	assertEquals(10, (new Subscription(null, 20, null, null)).calculateDiscountRatio(), 0.001);
+	assertEquals(20, (new Subscription(null, 30, null, null)).calculateDiscountRatio(), 0.001);
     }
     
     @Test

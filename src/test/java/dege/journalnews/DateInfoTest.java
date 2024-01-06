@@ -21,7 +21,7 @@ public class DateInfoTest {
 
     @Test
     public void testStart() {
-	assertEquals(d1.getStartDate(), 1);
+	assertEquals(d1.getStartMonth(), 1);
 	assertEquals(d1.getStartYear(), 1);
     }
     
