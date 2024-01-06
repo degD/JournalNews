@@ -77,11 +77,15 @@ public class Subscription implements java.io.Serializable{
     }
 
     public boolean canSend(int issueMonth) {
+	return payment.getReceivedPayment() >= paymentForAccess(issueMonth);
+    }
+    
+    public double paymentForAccess(int issueMonth) {
 	int NormalizedMonth = issueMonth - dates.getStartMonth() + 1;
 	if (NormalizedMonth < 1) {
 	    NormalizedMonth += 12;
 	}
-	return payment.getReceivedPayment() >= (NormalizedMonth * getMonthlyPrice());
+	return (NormalizedMonth * getMonthlyPrice());
     }
     
     public double getMonthlyPrice() {
@@ -91,7 +95,9 @@ public class Subscription implements java.io.Serializable{
     public boolean isExpired(int month, int year) {
 	int endDateNr = dates.getEndMonth() + (dates.getEndYear() - dates.getStartYear()) * 12;
 	int currentDateNr = month + (year - dates.getStartYear()) * 12;
-	return endDateNr < currentDateNr;
+	
+	// Return false only if 'startDate <= DATE <= endDate'
+	return (endDateNr < currentDateNr) || (currentDateNr < endDateNr-12);
     }
 
     public double getCompletePaymentAmount() {

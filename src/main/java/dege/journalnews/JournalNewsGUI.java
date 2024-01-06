@@ -916,8 +916,8 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private String getSubscriptionDetails(Subscription aSubscription) {
 	String details = "";
 	
-	// Saving Subscription details.
-	details += "Subscription:\n";
+	// Put Subscription details.
+	details += "Subscription:\n\n";
 	details += "Journal: " + aSubscription.getJournal().getName()+ "\n";
 	details += "ISSN: " + aSubscription.getJournal().getIssn() + "\n";
 	details += "Frequency: " + aSubscription.getJournal().getFrequency() + "\n";
@@ -925,15 +925,21 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	details += "Start: " + aSubscription.getDates().getStartDate() + "\n";
 	details += "End: " + aSubscription.getDates().getEndDate()+ "\n";
 	details += "Expired: " + aSubscription.isExpired(this.month, this.year) + "\n";
-	details += "\n";
-	details += String.format("Issue Price: %.1f (%.1f with %%%.1f discount)\n", 
-		aSubscription.getIssuePriceWithDiscount(), 
-		aSubscription.getJournal().getIssuePrice(),
-		aSubscription.calculateDiscountRatio());
-	details += "Total Amount: " + aSubscription.getCompletePaymentAmount() + "\n";
-	details += "Monthly Price: " + String.format("%.1f\n", aSubscription.getMonthlyPrice());
-	details += "Received: " + aSubscription.getPayment().getReceivedPayment() + "\n";
-	details += "Can Send: " + aSubscription.canSend(month);
+	
+	// Only put payment details if subscription is not expired.
+	if (!aSubscription.isExpired(month, year)) {
+	    details += "\n";
+	    details += String.format("Issue Price: %.1f (%.1f with %%%.1f discount)\n", 
+		    aSubscription.getIssuePriceWithDiscount(), 
+		    aSubscription.getJournal().getIssuePrice(),
+		    aSubscription.calculateDiscountRatio());
+	    details += "Total Amount: " + aSubscription.getCompletePaymentAmount() + "\n";
+	    details += "Monthly Price: " + String.format("%.1f\n", aSubscription.getMonthlyPrice());
+	    details += "Received: " + aSubscription.getPayment().getReceivedPayment() + "\n";
+	    details += "\n";
+	    details += "Current Price for Access: " + aSubscription.paymentForAccess(month) + "\n";
+	    details += "Access Granted: " + aSubscription.canSend(month);
+	}
 	
 	return details;
     }
@@ -1161,8 +1167,10 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 		detailsTextArea.append(getSubscriptionDetails(aSubscription));
 		
 		// Enable 'Accept payment' button.
-		paymentButton.setEnabled(true);
-		paymentTextField.setEnabled(true);
+		if (!aSubscription.isExpired(month, year)) {
+		    paymentButton.setEnabled(true);
+		    paymentTextField.setEnabled(true);
+		}
 	    }
 	    
 	} else {
