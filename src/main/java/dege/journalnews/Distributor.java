@@ -9,7 +9,7 @@ public class Distributor implements java.io.Serializable {
     private static final long serialVersionUID = -4739748530631712123L;
     private Hashtable<String, Journal> journals = new Hashtable<>();
     private Vector<Subscriber> subscribers = new Vector<>();
-
+    
     public Hashtable<String, Journal> getJournals() {
 	return journals;
     }

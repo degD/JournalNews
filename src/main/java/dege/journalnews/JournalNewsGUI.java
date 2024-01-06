@@ -6,7 +6,6 @@ package dege.journalnews;
 
 import java.io.File;
 import java.util.Vector;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
@@ -17,13 +16,14 @@ import javax.swing.DefaultListModel;
 public class JournalNewsGUI extends javax.swing.JFrame {
 
     private final String defaultSaveFileName = "distributor-state.save";
-    private Distributor distributor = new Distributor();
+    private final Distributor distributor = new Distributor();
     private final Vector<Subscriber> subscriberListElements = new Vector<>();
     private final Vector<Journal> journalListElements = new Vector<>();
     private final Vector<Subscription> subscriptionsListElements = new Vector<>();
     private final DefaultListModel subscribersListModel = new DefaultListModel();
     private final DefaultListModel journalsListModel = new DefaultListModel();
     private final DefaultListModel subscriptionsListModel = new DefaultListModel();
+    private int month, year;
 
     /**
      * Disables menu LOAD option if the save file does not exist.
@@ -38,7 +38,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     /**
      * Refresh GUI subscribers and journals lists.
      */
-    private void refreshGuiLists() {
+    private void refreshGuiItems() {
 	// Clear contents.
 	subscribersListModel.clear();
 	journalsListModel.clear();
@@ -78,6 +78,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	subscribersList.setModel(subscribersListModel);
 	journalsList.setModel(journalsListModel);
 	subscriptionsList.setModel(subscriptionsListModel);
+	
+	// Set default date. (UNIX Epoch)
+	setDate();
 
 	// Test values for distributor.
 	distributor.addJournal(new Journal("Big Journal", "1266", 4, 80));
@@ -165,6 +168,12 @@ public class JournalNewsGUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         detailsTextArea = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        setMonthField = new javax.swing.JTextField();
+        setYearField = new javax.swing.JTextField();
+        setDateButton = new javax.swing.JButton();
+        dateLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -673,7 +682,6 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
         detailsTextArea.setEditable(false);
         detailsTextArea.setColumns(15);
-        detailsTextArea.setLineWrap(true);
         detailsTextArea.setRows(5);
         jScrollPane3.setViewportView(detailsTextArea);
 
@@ -683,16 +691,28 @@ public class JournalNewsGUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addGap(16, 16, 16))
+                .addComponent(jScrollPane3))
         );
+
+        jLabel2.setText("Set Month");
+
+        jLabel23.setText("Set Year");
+
+        setDateButton.setText("Set Date");
+        setDateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setDateButtonActionPerformed(evt);
+            }
+        });
+
+        dateLabel.setText("Date:");
 
         fileMenu.setText("File");
 
@@ -764,21 +784,50 @@ public class JournalNewsGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(refreshButton)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(refreshButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(setMonthField)
+                                            .addComponent(setYearField)))
+                                    .addComponent(setDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                                .addContainerGap())))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel23});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(setMonthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(setYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(setDateButton))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refreshButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -789,7 +838,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
 	// Refresh lists when button is pressed.
-	refreshGuiLists();
+	refreshGuiItems();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     /**
@@ -844,9 +893,20 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	details += "Subscription:\n";
 	details += "Journal: " + aSubscription.getJournal().getName()+ "\n";
 	details += "ISSN: " + aSubscription.getJournal().getIssn() + "\n";
+	details += "Frequency: " + aSubscription.getJournal().getFrequency() + "\n";
 	details += "Copies: " + aSubscription.getCopies() + "\n";
 	details += "Start: " + aSubscription.getDates().getStartDate() + "\n";
 	details += "End: " + aSubscription.getDates().getEndDate()+ "\n";
+	details += "Expired: " + aSubscription.isExpired(this.month, this.year) + "\n";
+	details += "\n";
+	details += String.format("Issue Price: %.1f (%.1f with %%%.1f discount)\n", 
+		aSubscription.getIssuePriceWithDiscount(), 
+		aSubscription.getJournal().getIssuePrice(),
+		aSubscription.calculateDiscountRatio());
+	details += "Total Amount: " + aSubscription.getCompletePaymentAmount() + "\n";
+	details += "Monthly Price: " + String.format("%.1f\n", aSubscription.getMonthlyPrice());
+	details += "Received: " + aSubscription.getPayment().getReceivedPayment() + "\n";
+	details += "Can Send: " + aSubscription.canSend(month);
 	
 	return details;
     }
@@ -1009,7 +1069,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	resetNewCorporationDialog();
 	newCorporationDialog.setVisible(true);
     }//GEN-LAST:event_newCorpMenuItemActionPerformed
-
+    
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
 	// User selected 'Save'
 	distributor.saveState(defaultSaveFileName);
@@ -1019,7 +1079,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
 	// User selected 'Load'
 	distributor.readState(defaultSaveFileName);
-	refreshGuiLists();
+	refreshGuiItems();
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
     private void newSubscriptionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSubscriptionMenuItemActionPerformed
@@ -1071,6 +1131,35 @@ public class JournalNewsGUI extends javax.swing.JFrame {
 	    journalsList.clearSelection();
 	}
     }//GEN-LAST:event_subscriptionsListValueChanged
+
+    /**
+     * Set given month and year as current date.
+     * @param newMonth
+     * @param newYear 
+     */
+    private void setDate(int newMonth, int newYear) {
+	this.month = newMonth;
+	this.year = newYear;
+	dateLabel.setText("Date: " + this.month + "/" + this.year);
+    }
+    
+    /**
+     * Set current date to UNIX Epoch (January 1, 1970)
+     */
+    private void setDate() {
+	setDate(1, 1970);
+    }
+    
+    private void setDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setDateButtonActionPerformed
+        // User clicked the 'Set Date' button.
+	int newMonth = Integer.parseInt(setMonthField.getText());
+	int newYear = Integer.parseInt(setYearField.getText());
+	setDate(newMonth, newYear);
+	
+	// Clear date fields.
+	setMonthField.setText(null);
+	setYearField.setText(null);
+    }//GEN-LAST:event_setDateButtonActionPerformed
 
     private void resetNewJournalDialog() {
 	// Reset newJournalDialog instance.
@@ -1165,6 +1254,7 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu addItemMenu;
     private javax.swing.JTextField copiesField;
+    private javax.swing.JLabel dateLabel;
     private javax.swing.JTextArea detailsTextArea;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JButton jButton1;
@@ -1186,9 +1276,11 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1238,6 +1330,9 @@ public class JournalNewsGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem newSubscriptionMenuItem;
     private javax.swing.JButton refreshButton;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JButton setDateButton;
+    private javax.swing.JTextField setMonthField;
+    private javax.swing.JTextField setYearField;
     private javax.swing.JTextField startMonthField;
     private javax.swing.JTextField startYearField;
     private javax.swing.JComboBox<String> subscribersComboBox;

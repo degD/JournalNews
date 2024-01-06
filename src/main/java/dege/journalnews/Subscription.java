@@ -52,7 +52,7 @@ public class Subscription implements java.io.Serializable{
 	setCopies(amount + this.copies);
     }
 
-    private double calculateDiscountRatio() {
+    public double calculateDiscountRatio() {
 	if (copies > 20) {
 	    return 20.0;
 	} else if (20 >= copies && copies > 10) {
@@ -77,17 +77,15 @@ public class Subscription implements java.io.Serializable{
     }
 
     public boolean canSend(int issueMonth) {
-	double monthlyPrice = (getIssuePriceWithDiscount() * journal.getFrequency()) / 12;
-
 	int NormalizedMonth = issueMonth - dates.getStartMonth() + 1;
 	if (NormalizedMonth < 1) {
 	    NormalizedMonth += 12;
 	}
-
-	if (payment.getReceivedPayment() >= (NormalizedMonth * monthlyPrice)) {
-	    return true;
-	}
-	return false;
+	return payment.getReceivedPayment() >= (NormalizedMonth * getMonthlyPrice());
+    }
+    
+    public double getMonthlyPrice() {
+	return getCompletePaymentAmount() / 12;
     }
 
     public boolean isExpired(int month, int year) {
@@ -97,7 +95,7 @@ public class Subscription implements java.io.Serializable{
     }
 
     public double getCompletePaymentAmount() {
-	return getIssuePriceWithDiscount() * journal.getFrequency();
+	return getIssuePriceWithDiscount() * journal.getFrequency() * copies;
     }
 
     public boolean isPaymentComplete() {
