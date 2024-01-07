@@ -2,6 +2,10 @@ package dege.journalnews;
 
 public abstract class Subscriber implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -738292008487162153L;
 	private String name;
 	private String address;
 

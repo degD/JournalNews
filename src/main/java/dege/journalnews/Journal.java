@@ -4,7 +4,11 @@ import java.util.Vector;
 
 public class Journal implements java.io.Serializable {
 
-    private final String name, issn;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6759681833568381311L;
+	private final String name, issn;
     private final int frequency;
     private final double issuePrice;
     private Vector<Subscription> subscriptions = new Vector<>();

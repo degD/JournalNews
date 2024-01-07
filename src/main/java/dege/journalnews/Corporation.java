@@ -2,6 +2,7 @@ package dege.journalnews;
 
 public class Corporation extends Subscriber {
 
+	private static final long serialVersionUID = -1061511827979938137L;
 	public String bankName;
 	public int bankCode;
 	public int issueDay, issueMonth, issueYear;

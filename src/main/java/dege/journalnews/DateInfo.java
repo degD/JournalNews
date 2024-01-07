@@ -2,6 +2,7 @@ package dege.journalnews;
 
 public class DateInfo implements java.io.Serializable{
 	
+	private static final long serialVersionUID = -3953428144737567410L;
 	private final int startMonth, startYear;
 	private final int endMonth, endYear;
 	

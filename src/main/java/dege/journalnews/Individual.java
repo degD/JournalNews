@@ -2,6 +2,10 @@ package dege.journalnews;
 
 public class Individual extends Subscriber {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7042264296490780019L;
 	private String creditCardNr;
 	private int expireMonth, expireYear;
 	private int CVV;

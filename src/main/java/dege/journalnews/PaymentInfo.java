@@ -2,7 +2,11 @@ package dege.journalnews;
 
 public class PaymentInfo implements java.io.Serializable{
 
-    private final double discountRatio;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2145672752853389484L;
+	private final double discountRatio;
     private double receivedPayment = 0;
 
     public PaymentInfo(double discountRatio) {

@@ -2,7 +2,11 @@ package dege.journalnews;
 
 public class Subscription implements java.io.Serializable{
 
-    private final DateInfo dates;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3790383426860037804L;
+	private final DateInfo dates;
     private PaymentInfo payment;
     private int copies;
     private final Journal journal;
